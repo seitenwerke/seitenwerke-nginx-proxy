@@ -1,0 +1,17 @@
+name: Test
+
+ on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - stable*
+    
+jobs:
+  run-test-debian:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Makefile
+        run: make test-debian    
