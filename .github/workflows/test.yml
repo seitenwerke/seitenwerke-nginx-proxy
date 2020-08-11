@@ -13,5 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@master
+      - name: Print docker version
+        run: docker version
       - name: Run Makefile
         run: make test-debian    
