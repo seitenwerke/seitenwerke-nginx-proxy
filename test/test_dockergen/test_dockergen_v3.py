@@ -22,10 +22,9 @@ def versiontuple(v):
 
 
 raw_version = docker.from_env().version()['Version']
-print("Running on Docker version " + str(raw_version) + ". Note: Docker compose syntax v3 requires docker engine v1.13 or later.")
-#pytestmark = pytest.mark.skipif(
-#    versiontuple(raw_version) < (1, 13),
-#    reason="Docker compose syntax v3 requires docker engine v1.13 or later (got %s)" % raw_version)
+pytestmark = pytest.mark.skipif(
+    versiontuple(raw_version) < (1, 13),
+    reason="Docker compose syntax v3 requires docker engine v1.13 or later (got %s)" % raw_version)
 
 
 @pytest.yield_fixture(scope="module")
