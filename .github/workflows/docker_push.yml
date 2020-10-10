@@ -3,6 +3,11 @@ on:
   workflow_dispatch:
   release:
     types: [published]
+  push:
+    branches:
+      - master
+      - feature/docker_hub_push #TODO remove
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
