@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - master
-      - feature/docker_hub_push #TODO remove
 
 jobs:
   push_to_registry:
