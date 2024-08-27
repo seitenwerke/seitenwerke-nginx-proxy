@@ -1,6 +1,6 @@
 FROM nginxproxy/docker-gen:0.14.0-debian AS docker-gen
 
-FROM nginxproxy/forego:0.18.1-debian AS forego
+FROM nginxproxy/forego:0.18.2-debian AS forego
 
 # Build the final image
 FROM nginx:1.27.0
