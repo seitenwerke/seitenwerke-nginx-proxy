@@ -1,3 +1,37 @@
+# Seitenwerke nginx-proxy fork
+
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/seitenwerke/nginx-proxy?label=docker%20version&sort=semver)](https://hub.docker.com/r/seitenwerke/nginx-proxy) ![Publish Docker image](https://github.com/seitenwerke/seitenwerke-nginx-proxy/actions/workflows/docker_push.yml/badge.svg?branch=master) ![Test](https://github.com/seitenwerke/seitenwerke-nginx-proxy/actions/workflows/test.yml/badge.svg?branch=master)
+
+This is [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) (based on upstream release `1.11.6`) with one addition: **automatic `www.` to non-`www.` redirects**.
+
+### www redirect
+
+Every `VIRTUAL_HOST` starting with `www.` answers every request with a `301` redirect to the same hostname without `www.`, keeping the request URI:
+
+```yaml
+environment:
+  - VIRTUAL_HOST=example.com,www.example.com
+  - LETSENCRYPT_HOST=example.com,www.example.com
+```
+
+- `http://www.example.com/foo` and `https://www.example.com/foo` both redirect to `https://example.com/foo` (a single hop).
+- With `HTTPS_METHOD=nohttps` the target is `http://`, with `HTTPS_METHOD=noredirect` the request scheme is kept.
+- Custom `HTTP_PORT` / `HTTPS_PORT` and the `com.github.nginx-proxy.nginx-proxy.non-get-redirect` label are honoured.
+- Let's Encrypt HTTP-01 challenges (`/.well-known/acme-challenge/`) are still served locally on the `www.` host.
+- Regexp and wildcard hostnames are never redirected.
+
+To disable the redirect for the hosts of one container, set the label `com.github.nginx-proxy.nginx-proxy.www-redirect=false` on it. To disable it globally, set `WWW_REDIRECT=false` on the nginx-proxy container.
+
+### Push a new version
+
+To push a new version to Docker Hub, create a tag named after the bundled nginx version, e.g. `v1.31.3`. GitHub Actions builds the Debian based image and pushes it to [`seitenwerke/nginx-proxy`](https://hub.docker.com/r/seitenwerke/nginx-proxy). See `.github/workflows/docker_push.yml` for details.
+
+### Updating from upstream
+
+The whole fork is the template change in `nginx.tmpl` (search for `www_redirect`), its tests in `test/test_ssl/test_www-redirect.*` and the publishing workflow. To update, start a branch from the new upstream release and cherry-pick the fork commits on top of it.
+
+# Original Readme
+
 <a href="https://zerossl.com">
 <picture>
   <!-- Dark mode -->
