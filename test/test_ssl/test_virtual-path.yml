@@ -8,6 +8,8 @@ services:
       VIRTUAL_HOST: "www.nginx-proxy.tld"
       VIRTUAL_PATH: "/web1/"
       VIRTUAL_DEST: "/"
+    labels:
+      com.github.nginx-proxy.nginx-proxy.www-redirect: "false"
 
   web2:
     image: web
@@ -18,3 +20,5 @@ services:
       VIRTUAL_HOST: "www.nginx-proxy.tld"
       VIRTUAL_PATH: "/web2/"
       VIRTUAL_DEST: "/"
+    labels:
+      com.github.nginx-proxy.nginx-proxy.www-redirect: "false"

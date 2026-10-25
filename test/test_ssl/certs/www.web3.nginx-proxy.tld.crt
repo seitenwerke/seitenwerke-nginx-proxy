@@ -1,0 +1,77 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 4096 (0x1000)
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: O=nginx-proxy test suite, CN=www.nginx-proxy.tld
+        Validity
+            Not Before: Oct 25 20:41:46 2026 GMT
+            Not After : Mar 12 20:41:46 2054 GMT
+        Subject: CN=www.web3.nginx-proxy.tld
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:ab:89:6a:2b:00:9b:00:c6:ce:33:aa:d1:d0:23:
+                    89:4b:1d:0f:fd:07:dd:14:13:96:d5:85:ec:a2:2f:
+                    06:38:37:ce:a7:41:83:f8:43:2e:22:93:45:de:43:
+                    4c:c7:fe:17:4a:ad:08:d1:92:38:09:14:59:a4:28:
+                    ce:61:c1:a4:bc:e0:4d:d5:bf:91:82:ef:0a:44:55:
+                    97:5c:7f:ee:b3:c3:2c:63:7e:a3:24:2c:aa:81:45:
+                    a2:61:47:9a:84:cc:41:fd:ce:72:92:9b:40:31:e5:
+                    9b:a6:8a:12:5d:0e:7a:a4:e7:05:0d:d0:5f:b9:d4:
+                    5b:70:f0:cc:5c:ce:7d:f1:97:68:72:e5:e3:79:35:
+                    99:ae:52:da:e9:70:6f:50:31:e3:14:76:a2:a3:32:
+                    e6:5b:21:80:02:6b:d7:d7:28:d7:91:dc:92:8f:ec:
+                    b0:b3:45:6d:81:c9:9e:64:6d:9f:b1:ee:59:f6:69:
+                    66:2e:83:c6:ed:7d:d2:92:4b:06:43:de:18:d7:84:
+                    3e:c1:1b:3f:e5:c2:a8:b2:07:58:cc:8e:f4:7b:83:
+                    5d:50:91:da:d0:ab:e0:77:93:13:54:2b:be:8b:b7:
+                    43:17:4d:90:5c:5e:2e:94:92:00:e6:27:b0:c8:c9:
+                    3f:f3:25:85:c1:b5:98:7f:c0:ae:0c:c3:e5:be:36:
+                    d0:ed
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Alternative Name: 
+                DNS:www.web3.nginx-proxy.tld
+            X509v3 Subject Key Identifier: 
+                A9:07:33:EC:59:2E:39:E1:F2:AB:EA:F2:00:BA:AE:5B:E1:D6:BE:3F
+            X509v3 Authority Key Identifier: 
+                24:BE:7D:A4:7A:26:B7:EF:1D:50:DC:6F:F0:78:2B:62:32:9F:38:0F
+    Signature Algorithm: sha256WithRSAEncryption
+    Signature Value:
+        41:0f:7b:46:6d:2f:8d:c4:1b:b6:96:89:03:d5:30:75:5a:34:
+        a6:58:5e:be:89:88:f1:b3:1d:20:2c:2d:3a:24:31:53:a8:b2:
+        c1:9f:6d:b1:85:a7:d6:66:fa:82:e0:19:23:b1:ef:7a:31:dd:
+        db:93:6c:9d:a9:34:7c:5e:74:9e:71:55:73:d2:91:53:42:cf:
+        16:06:4e:d5:54:6d:6f:7f:3a:b5:3f:4b:8b:0e:f6:8c:97:7a:
+        3c:52:5b:00:17:0f:6a:ac:1e:e5:22:6e:7a:98:1d:0c:9b:60:
+        01:8e:54:e3:ee:66:97:5c:4f:e9:61:9b:af:bf:28:3f:a0:2d:
+        8c:b3:9d:22:b5:af:00:61:a0:3b:36:33:a9:7a:60:d0:2d:18:
+        65:b2:34:02:ab:e0:05:26:2f:3d:c7:79:ee:d5:62:e5:7b:ca:
+        03:4f:44:d8:f9:fd:be:bb:cf:c9:b8:9d:13:6e:b3:fc:f6:d9:
+        a0:71:c9:db:7a:55:0e:bd:76:6d:10:2a:0c:49:b4:c0:bb:b9:
+        99:db:98:a5:ca:26:28:d1:01:52:b2:b9:a4:02:df:c1:ce:54:
+        c4:ca:83:14:c9:e8:22:2f:e9:02:b9:ff:fb:f1:de:c8:17:02:
+        8f:33:6e:3a:04:80:9c:64:ba:89:85:8d:05:c5:8f:0a:a1:6b:
+        65:11:01:bf
+-----BEGIN CERTIFICATE-----
+MIIDRzCCAi+gAwIBAgICEAAwDQYJKoZIhvcNAQELBQAwPzEfMB0GA1UECgwWbmdp
+bngtcHJveHkgdGVzdCBzdWl0ZTEcMBoGA1UEAwwTd3d3Lm5naW54LXByb3h5LnRs
+ZDAgFw0yNjEwMjUyMDQxNDZaGA8yMDU0MDMxMjIwNDE0NlowIzEhMB8GA1UEAwwY
+d3d3LndlYjMubmdpbngtcHJveHkudGxkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+MIIBCgKCAQEAq4lqKwCbAMbOM6rR0COJSx0P/QfdFBOW1YXsoi8GODfOp0GD+EMu
+IpNF3kNMx/4XSq0I0ZI4CRRZpCjOYcGkvOBN1b+Rgu8KRFWXXH/us8MsY36jJCyq
+gUWiYUeahMxB/c5ykptAMeWbpooSXQ56pOcFDdBfudRbcPDMXM598ZdocuXjeTWZ
+rlLa6XBvUDHjFHaiozLmWyGAAmvX1yjXkdySj+yws0VtgcmeZG2fse5Z9mlmLoPG
+7X3SkksGQ94Y14Q+wRs/5cKosgdYzI70e4NdUJHa0Kvgd5MTVCu+i7dDF02QXF4u
+lJIA5iewyMk/8yWFwbWYf8CuDMPlvjbQ7QIDAQABo2cwZTAjBgNVHREEHDAaghh3
+d3cud2ViMy5uZ2lueC1wcm94eS50bGQwHQYDVR0OBBYEFKkHM+xZLjnh8qvq8gC6
+rlvh1r4/MB8GA1UdIwQYMBaAFCS+faR6JrfvHVDcb/B4K2IynzgPMA0GCSqGSIb3
+DQEBCwUAA4IBAQBBD3tGbS+NxBu2lokD1TB1WjSmWF6+iYjxsx0gLC06JDFTqLLB
+n22xhafWZvqC4Bkjse96Md3bk2ydqTR8XnSecVVz0pFTQs8WBk7VVG1vfzq1P0uL
+DvaMl3o8UlsAFw9qrB7lIm56mB0Mm2ABjlTj7maXXE/pYZuvvyg/oC2Ms50ita8A
+YaA7NjOpemDQLRhlsjQCq+AFJi89x3nu1WLle8oDT0TY+f2+u8/JuJ0TbrP89tmg
+ccnbelUOvXZtECoMSbTAu7mZ25ilyiYo0QFSsrmkAt/BzlTEyoMUyegiL+kCuf/7
+8d7IFwKPM246BICcZLqJhY0FxY8KoWtlEQG/
+-----END CERTIFICATE-----

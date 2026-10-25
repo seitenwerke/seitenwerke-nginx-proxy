@@ -35,6 +35,7 @@
 {{- $_ := set $config "enable_http_on_missing_cert" ($globals.Env.ENABLE_HTTP_ON_MISSING_CERT | default "true") }}
 {{- $_ := set $config "https_method" ($globals.Env.HTTPS_METHOD | default "redirect") }}
 {{- $_ := set $config "non_get_redirect" ($globals.Env.NON_GET_REDIRECT | default "301") }}
+{{- $_ := set $config "www_redirect" ($globals.Env.WWW_REDIRECT | default "true") }}
 {{- $_ := set $config "default_host" $globals.Env.DEFAULT_HOST }}
 {{- $_ := set $config "resolvers" $globals.Env.RESOLVERS }}
 {{- /* LOG_JSON is a shorthand that sets logging defaults to JSON format */}}
@@ -347,6 +348,39 @@
         {{- end }}
     }
     {{- end }}
+{{- end }}
+
+{{- /*
+     * Location that permanently redirects every request made to a www.<domain>
+     * vhost to <domain>, keeping the request URI.
+     */}}
+{{- define "www_redirect_location" }}
+    {{- $vhost := .VHost }}
+    {{- $target := $vhost.www_redirect_target }}
+    {{- $http_uri := printf "http://%s$request_uri" $target }}
+    {{- if ne $vhost.external_http_port "80" }}
+        {{- $http_uri = printf "http://%s:%s$request_uri" $target $vhost.external_http_port }}
+    {{- end }}
+    {{- $https_uri := printf "https://%s$request_uri" $target }}
+    {{- if ne $vhost.external_https_port "443" }}
+        {{- $https_uri = printf "https://%s:%s$request_uri" $target $vhost.external_https_port }}
+    {{- end }}
+    location / {
+    {{- if eq $vhost.https_method "noredirect" }}
+        set $www_redirect_uri "{{ $http_uri }}";
+        if ($https) {
+            set $www_redirect_uri "{{ $https_uri }}";
+        }
+    {{- else }}
+        set $www_redirect_uri "{{ eq $vhost.https_method "nohttps" | ternary $http_uri $https_uri }}";
+    {{- end }}
+    {{- if ne $vhost.non_get_redirect "301" }}
+        if ($request_method ~ (OPTIONS|POST|PUT|PATCH|DELETE)) {
+            return {{ $vhost.non_get_redirect }} $www_redirect_uri;
+        }
+    {{- end }}
+        return 301 $www_redirect_uri;
+    }
 {{- end }}
 
 {{- define "upstream" }}
@@ -796,6 +830,13 @@ proxy_set_header Proxy "";
     {{- end }}
     {{- $non_get_redirect := groupByLabel $vhost_containers "com.github.nginx-proxy.nginx-proxy.non-get-redirect" | keys | first | default $globals.config.non_get_redirect }}
 
+    {{- /* Redirect www.<domain> to <domain> unless disabled globally or by a container label. Regexp and wildcard hostnames are never redirected. */}}
+    {{- $www_redirect := groupByLabel $vhost_containers "com.github.nginx-proxy.nginx-proxy.www-redirect" | keys | first | default $globals.config.www_redirect | parseBool }}
+    {{- $www_redirect_target := "" }}
+    {{- if and $www_redirect (hasPrefix "www." $hostname) (not $is_regexp) (not (sprigContains "*" $hostname)) }}
+        {{- $www_redirect_target = trimPrefix "www." $hostname }}
+    {{- end }}
+
     {{- $http2_enabled := groupByLabel $vhost_containers "com.github.nginx-proxy.nginx-proxy.http2.enable" | keys | first | default $globals.config.enable_http2 | parseBool }}
     {{- $http3_enabled := groupByLabel $vhost_containers "com.github.nginx-proxy.nginx-proxy.http3.enable" | keys | first | default $globals.config.enable_http3 | parseBool }}
 
@@ -840,6 +881,7 @@ proxy_set_header Proxy "";
         "trust_default_cert" $trust_default_cert
         "upstream_name" $upstream_name
         "vhost_root" $vhost_root
+        "www_redirect_target" $www_redirect_target
     ) }}
     {{- $_ := set $globals.vhosts $hostname $vhost_data }}
 {{- end }}
@@ -986,9 +1028,10 @@ server {
         {{- end }}
 
     location / {
-        {{- $redirect_uri := "https://$host$request_uri" }}
+        {{- $redirect_host := $vhost.www_redirect_target | default "$host" }}
+        {{- $redirect_uri := printf "https://%s$request_uri" $redirect_host }}
         {{- if ne $vhost.external_https_port "443" }}
-            {{- $redirect_uri = printf "https://$host:%s$request_uri" $vhost.external_https_port }}
+            {{- $redirect_uri = printf "https://%s:%s$request_uri" $redirect_host $vhost.external_https_port }}
         {{- end}}
         {{- if ne $vhost.non_get_redirect "301" }}
         if ($request_method ~ (OPTIONS|POST|PUT|PATCH|DELETE)) {
@@ -1125,6 +1168,10 @@ server {
         {{ template "debug_location" (dict "GlobalConfig" $globals.config "Hostname" $hostname "VHost" $vhost) }}
     {{- end }}
 
+    {{- if $vhost.www_redirect_target }}
+        {{- template "www_redirect_location" (dict "VHost" $vhost) }}
+    {{- else }}
+
     {{- range $path, $vpath := $vhost.paths }}
         {{- template "location" (dict
             "Path" $path
@@ -1139,6 +1186,8 @@ server {
     location / {
         return {{ $globals.config.default_root_response }};
     }
+    {{- end }}
+
     {{- end }}
 }
 {{- end }}
